@@ -140,6 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f6161b124b1e446a5c8bd84fa405a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicProjectile
+  playerStats: {fileID: 4089681507201079003, guid: 5f06f0c2116f5224c9c8cbca0b4301bd, type: 3}
   speed: 10
   range: 10
-  damage: 10

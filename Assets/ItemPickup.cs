@@ -19,6 +19,8 @@ public class ItemPickup : MonoBehaviour
         {
             case Items.RegenItem:
                 return new RegenItem();
+            case Items.Stake:
+                return new Stake();
             default:
                 return new RegenItem();
         }
@@ -41,5 +43,6 @@ public class ItemPickup : MonoBehaviour
 
 public enum Items
 {
-    RegenItem
+    RegenItem,
+    Stake
 }

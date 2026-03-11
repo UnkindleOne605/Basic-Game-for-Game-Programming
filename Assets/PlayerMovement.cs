@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        myRigidbody.linearVelocity = new Vector2(moveDirection.x * playerStats.moveSpeed, moveDirection.y * playerStats.moveSpeed);
+        myRigidbody.linearVelocity = new Vector2(moveDirection.x * playerStats.modifiedMoveSpeed, moveDirection.y * playerStats.modifiedMoveSpeed);
 
         if (moveDirection.x > 0)
         {

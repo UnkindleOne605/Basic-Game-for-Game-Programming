@@ -35,7 +35,7 @@ public class PlayerAttacking : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (playerAttack.triggered && stats.attackCooldown <= timer)
+        if (playerAttack.triggered && stats.modifiedFireRate <= timer)
         {
             timer = 0;
             //Attack();
@@ -51,7 +51,7 @@ public class PlayerAttacking : MonoBehaviour
             Transform projectileTransform = Instantiate(BasicProjectile, transform.position, UnityEngine.Quaternion.identity);
             projectileTransform.GetComponent<BasicProjectile>().Setup(direction);
         }
-        else if (playerAttack.triggered && stats.attackCooldown > timer)
+        else if (playerAttack.triggered && stats.modifiedFireRate > timer)
         {
             Debug.Log("On Cooldown");
         }
