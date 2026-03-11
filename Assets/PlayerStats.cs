@@ -33,10 +33,10 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
-        RegenItem item = new RegenItem();
-        items.Add(new ItemList(item, item.GiveName(), 1));
-        Stake item2 = new Stake();
-        items.Add(new ItemList(item2, item2.GiveName(), 1));
+        //RegenItem item = new RegenItem();
+        //items.Add(new ItemList(item, item.GiveName(), 1));
+        //Stake item2 = new Stake();
+        //items.Add(new ItemList(item2, item2.GiveName(), 1));
 
         StartCoroutine(ItemUpdate());
 
@@ -52,6 +52,14 @@ public class PlayerStats : MonoBehaviour
         modifiedMoveSpeed = baseMoveSpeed;
         modifiedHealthRegen = baseHealthRegen;
     }
+
+    //public void CallItemOnPickup()
+    //{
+    //    foreach (ItemList i in items)
+    //    {
+    //        i.item.onPickup(this, i.amount);
+    //    }
+    //}
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;

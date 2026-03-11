@@ -40,7 +40,7 @@ public class Stake : Item
 
     public override void Update(PlayerStats stats, int amount)
     {
-        stats.modifiedAttackDamage += 5;
+        stats.modifiedAttackDamage += 5 + ((amount - 1) * 2);
         Debug.Log("Stake applied: " + stats.modifiedAttackDamage);
     }
 }

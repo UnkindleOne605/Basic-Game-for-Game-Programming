@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEditor.Search;
+using Unity.VisualScripting;
 
 public class ItemPickup : MonoBehaviour
 {
@@ -11,6 +12,19 @@ public class ItemPickup : MonoBehaviour
     void Start()
     {
         item = AssignItem(itemDrop);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Player picked up: " + item.GiveName());
+            PlayerStats player = other.GetComponent<PlayerStats>();
+            AddItem(player);
+            Destroy(this.gameObject);
+        }
+
+        Debug.Log("Triggered by: " + other.name);
     }
 
     public Item AssignItem(Items item)
