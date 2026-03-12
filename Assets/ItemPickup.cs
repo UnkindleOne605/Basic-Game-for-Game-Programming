@@ -21,6 +21,7 @@ public class ItemPickup : MonoBehaviour
             Debug.Log("Player picked up: " + item.GiveName());
             PlayerStats player = other.GetComponent<PlayerStats>();
             AddItem(player);
+            player.CallItemOnPickup();
             Destroy(this.gameObject);
         }
 
@@ -35,6 +36,8 @@ public class ItemPickup : MonoBehaviour
                 return new RegenItem();
             case Items.Stake:
                 return new Stake();
+            case Items.BloodVial:
+                return new BloodVial();
             default:
                 return new RegenItem();
         }
@@ -58,5 +61,6 @@ public class ItemPickup : MonoBehaviour
 public enum Items
 {
     RegenItem,
-    Stake
+    Stake,
+    BloodVial
 }

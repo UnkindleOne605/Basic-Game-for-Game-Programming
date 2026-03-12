@@ -18,8 +18,8 @@ public class BasicProjectile : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Projectile direction: " + direction);
-        Debug.Log("Projectile position: " + transform.position);
+        //Debug.Log("Projectile direction: " + direction);
+        //Debug.Log("Projectile position: " + transform.position);
         transform.position += direction * speed * Time.deltaTime;
 
         if (UnityEngine.Vector3.Distance(startPosition, transform.position) >= playerStats.modifiedAttackRange)

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class PlayerStats : MonoBehaviour
 {
     //Health related player stats
-    public float basemaxHealth = 100f;
+    public float baseMaxHealth = 100f;
     public float modifiedMaxHealth;
     public float currentHealth;
 
@@ -41,7 +41,7 @@ public class PlayerStats : MonoBehaviour
         StartCoroutine(ItemUpdate());
 
         //Stats initialization to modified stats
-        modifiedMaxHealth = basemaxHealth;
+        modifiedMaxHealth = baseMaxHealth;
         currentHealth = modifiedMaxHealth;
 
         modifiedAttackDamage = baseAttackDamage;
@@ -60,11 +60,6 @@ public class PlayerStats : MonoBehaviour
     //        i.item.onPickup(this, i.amount);
     //    }
     //}
-    public void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
-        currentHealth = Mathf.Max(currentHealth, 0);
-    }
 
     IEnumerator ItemUpdate()
     {
@@ -74,5 +69,56 @@ public class PlayerStats : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         StartCoroutine(ItemUpdate());
+    }
+
+    private void FixedUpdate()
+    {
+        maxHealthCalculation();
+        healthRegenCalculation();
+        attackdamageCalculation();
+    }
+
+    public void maxHealthCalculation()
+    {
+        modifiedMaxHealth = baseMaxHealth;
+        foreach (ItemList i in items)
+        {
+            if (i.name == "Blood Vial")
+            {
+                modifiedMaxHealth += 10 * i.amount;
+            }
+        }
+    }
+
+    public void healthRegenCalculation()
+    {
+        modifiedHealthRegen = baseHealthRegen;
+        foreach (ItemList i in items)
+        {
+            if (i.name == "Regen Item")
+            {
+                modifiedHealthRegen += 1 * i.amount;
+            }
+        }
+    }
+
+    public void attackdamageCalculation()
+    {
+        modifiedAttackDamage = baseAttackDamage;
+        foreach (ItemList i in items)
+        {
+            if (i.name == "Stake")
+            {
+                modifiedAttackDamage += 5 + ((i.amount - 1) * 2);
+            }
+        }
+    }
+
+    public void CallItemOnPickup()
+    {
+        foreach (ItemList i in items)
+        {
+            i.item.onPickup(this, i.amount);
+        }
     }
 }

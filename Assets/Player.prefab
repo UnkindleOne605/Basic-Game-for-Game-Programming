@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 849127893597108437}
   - component: {fileID: 3599637328986730879}
   - component: {fileID: 8148468662103936078}
+  - component: {fileID: 1763262517224262228}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -135,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fd968df96461543b95e2737c374bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  basemaxHealth: 0
+  baseMaxHealth: 100
   modifiedMaxHealth: 0
   currentHealth: 0
   baseAttackDamage: 0
@@ -287,6 +288,19 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.27, y: 0.54}
   m_Direction: 0
+--- !u!114 &1763262517224262228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6736304547116437764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0824b54ce734424d85b994fa9eb3c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatCalculations
+  stats: {fileID: 4089681507201079003}
 --- !u!1 &8381534565477896840
 GameObject:
   m_ObjectHideFlags: 0

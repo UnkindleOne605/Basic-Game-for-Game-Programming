@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 [System.Serializable]
 public abstract class Item
@@ -11,10 +12,10 @@ public abstract class Item
         
     }
 
-    //public virtual void onPickup(PlayerStats stats, int amount)
-    //{
+    public virtual void onPickup(PlayerStats stats, int amount)
+    {
 
-    //}
+    }
 }
 
 public class RegenItem : Item
@@ -24,11 +25,11 @@ public class RegenItem : Item
         return "Regen Item";
     }
 
-    public override void Update(PlayerStats stats, int amount)
-    {
-        stats.currentHealth += 5;
-        Debug.Log("Regen applied: " + stats.currentHealth);
-    }
+    //public override void Update(PlayerStats stats, int amount)
+    //{
+    //    stats.currentHealth += 5;
+    //    Debug.Log("Regen applied: " + stats.currentHealth);
+    //}
 }
 
 public class Stake : Item
@@ -38,9 +39,17 @@ public class Stake : Item
         return "Stake";
     }
 
-    public override void Update(PlayerStats stats, int amount)
+    //public override void Update(PlayerStats stats, int amount)
+    //{
+    //    stats.modifiedAttackDamage += 5 + ((amount - 1) * 2);
+    //    Debug.Log("Stake applied: " + stats.modifiedAttackDamage);
+    //}
+}
+
+public class BloodVial : Item
+{
+    public override string GiveName()
     {
-        stats.modifiedAttackDamage += 5 + ((amount - 1) * 2);
-        Debug.Log("Stake applied: " + stats.modifiedAttackDamage);
+        return "Blood Vial";
     }
 }
