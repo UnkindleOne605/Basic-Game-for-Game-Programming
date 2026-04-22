@@ -1,18 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using UnityEditor.Search;
-using Unity.VisualScripting;
 
 public class ItemPickup : MonoBehaviour
 {
+    //[SerializeReference]
     public Item item;
     public Items itemDrop;
 
     void Start()
     {
-        item = AssignItem(itemDrop);
+        item = AssignItem(itemDrop);  
     }
+
+    void Awake()
+    {
+        
+    } 
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -38,6 +42,18 @@ public class ItemPickup : MonoBehaviour
                 return new Stake();
             case Items.BloodVial:
                 return new BloodVial();
+            case Items.Boots:
+                return new Boots();
+            case Items.ScaleMailArmor:
+                return new ScaleMailArmor();
+            case Items.MaceofRedemption:
+                return new MaceofRedemption();
+            case Items.Shieldofredemption:
+                return new ShieldofRedemption();
+            case Items.Cloak:
+                return new Cloak();
+            case Items.CandleFlamer:
+                return new CandleFlamer();
             default:
                 return new RegenItem();
         }
@@ -62,5 +78,11 @@ public enum Items
 {
     RegenItem,
     Stake,
-    BloodVial
+    BloodVial,
+    Boots,
+    ScaleMailArmor,
+    MaceofRedemption,
+    Shieldofredemption,
+    Cloak,
+    CandleFlamer
 }

@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class hurtbox : MonoBehaviour
 {
@@ -7,6 +9,8 @@ public class hurtbox : MonoBehaviour
     public Rigidbody2D body;
     public GameObject loot;
     public float timer;
+
+    private bool isDead = false;
 
     void Start()
     {
@@ -24,12 +28,15 @@ public class hurtbox : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        Debug.Log(hp.currentHealth);
-        if (hp.currentHealth <= 0)
-        {
+        //Debug.Log(hp.currentHealth);
+        if (hp.currentHealth <= 0 && !isDead)
+        {   
+            Instantiate(loot, transform.position, Quaternion.identity);
+            isDead = true;
             Destroy(body.gameObject);
             Debug.Log("Enemy Defeated");
-            Instantiate(loot, transform.position, Quaternion.identity);
+            
+            
         }
     }
 

@@ -27,11 +27,12 @@ public class PlayerStats : MonoBehaviour
     //Misc player stats
     public float invincibilityDuration =0.5f;
     public float baseHealthRegen = 1f;
-    public float modifiedHealthRegen;
-
+    public float modifiedHealthRegen = 0f;
+    public float dodgeChance = 0f;
+    public float modifieddodgeChance = 0f;
     public List<ItemList> items = new List<ItemList>();
 
-    void Start()
+    void Awake()
     {
         //RegenItem item = new RegenItem();
         //items.Add(new ItemList(item, item.GiveName(), 1));
@@ -48,6 +49,7 @@ public class PlayerStats : MonoBehaviour
         modifiedFireRate = baseFireRate;
         modifiedAttackRange = baseAttackRange;
         modifiedArmor = baseArmor;
+        modifieddodgeChance = dodgeChance;
 
         modifiedMoveSpeed = baseMoveSpeed;
         modifiedHealthRegen = baseHealthRegen;
@@ -76,6 +78,8 @@ public class PlayerStats : MonoBehaviour
         maxHealthCalculation();
         healthRegenCalculation();
         attackdamageCalculation();
+        speedCalculation();
+        armorCalculation();
     }
 
     public void maxHealthCalculation()
@@ -110,6 +114,42 @@ public class PlayerStats : MonoBehaviour
             if (i.name == "Stake")
             {
                 modifiedAttackDamage += 5 + ((i.amount - 1) * 2);
+            }
+        }
+    }
+
+    public void speedCalculation()
+    {
+        modifiedMoveSpeed = baseMoveSpeed;
+        foreach (ItemList i in items)
+        {
+            if (i.name == "Boots")
+            {
+                modifiedMoveSpeed += 5 * i.amount;
+            }
+        }
+    }
+
+    public void armorCalculation()
+    {
+        modifiedArmor = baseArmor;
+        foreach (ItemList i in items)
+        {
+            if (i.name == "Scale Mail Armor")
+            {
+                modifiedArmor += 5 * i.amount;
+            }
+        }
+    }
+
+    public void dodgeChanceCalculation()
+    {
+        modifieddodgeChance = dodgeChance;
+        foreach (ItemList i in items)
+        {
+            if (i.name == "Cloak")
+            {
+                modifieddodgeChance += 5 * i.amount;
             }
         }
     }

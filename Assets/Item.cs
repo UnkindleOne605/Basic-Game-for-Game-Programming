@@ -6,6 +6,8 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 public abstract class Item
 {
     public abstract string GiveName();
+    public int dropChance;
+    
 
     public virtual void Update(PlayerStats stats, int amount)
     {
@@ -51,5 +53,54 @@ public class BloodVial : Item
     public override string GiveName()
     {
         return "Blood Vial";
+    }
+
+}
+
+public class Boots : Item
+{
+    public override string GiveName()
+    {
+        return "Boots";
+    }
+}
+
+public class ScaleMailArmor : Item
+{
+    public override string GiveName()
+    {
+        return "Scale Mail Armor";
+    }
+}
+
+public class MaceofRedemption : Item
+{
+    public override string GiveName()
+    {
+        return "Mace of Redemption";
+    }
+}
+
+public class ShieldofRedemption : Item
+{
+    public override string GiveName()
+    {
+        return "Shield of Redemption";
+    }
+}
+
+public class Cloak : Item
+{
+    public override string GiveName()
+    {
+        return "Cloak";
+    }
+}
+
+public class CandleFlamer : Item
+{
+    public override string GiveName()
+    {
+        return "Candle Flamer";
     }
 }

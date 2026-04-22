@@ -4,6 +4,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class ItemList
 {
+    [SerializeReference]
     public Item item;
     public string name;
     public int amount;

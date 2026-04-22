@@ -4,7 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - CorruptedStatueF1
   - PlayerProjectile
+  - CorruptedStatueBody
   layers:
   - Default
   - TransparentFX
