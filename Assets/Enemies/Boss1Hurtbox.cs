@@ -1,0 +1,54 @@
+using UnityEngine;
+
+public class Boss1Hurtbox : MonoBehaviour
+{
+    public HandStats hp;
+    public PlayerStats player;
+    public Rigidbody2D body;
+    public GameObject loot;
+    public float timer;
+
+    private bool isDead = false;
+
+    void Start()
+    {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        }
+
+        hp = transform.GetComponentInParent<HandStats>();
+        body = transform.GetComponentInParent<Rigidbody2D>();
+        hp.currentHealth = hp.maxHealth;
+    }
+
+    void Update()
+    {
+        timer += Time.deltaTime;
+
+        //Debug.Log(hp.currentHealth);
+        if (hp.currentHealth <= 0 && !isDead)
+        {   
+            Instantiate(loot, transform.position, Quaternion.identity);
+            isDead = true;
+            Destroy(body.gameObject);
+            Debug.Log("Enemy Defeated");
+            
+            
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerProjectile"))
+        {
+            if (timer > hp.invincibilityDuration)
+            {
+                hp.TakeDamage(CombatCalculation.CalculateDamage(player, hp));
+                Debug.Log("Hit");
+                Destroy(collision.gameObject);
+                timer = 0f;
+            }
+        }
+    }
+}

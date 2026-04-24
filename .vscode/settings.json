@@ -66,5 +66,6 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "Basic-Game-for-Game-Programming.sln"
+    "dotnet.defaultSolution": "Basic-Game-for-Game-Programming.sln",
+    "git.ignoreLimitWarning": true
 }

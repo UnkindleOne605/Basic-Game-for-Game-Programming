@@ -25,7 +25,6 @@ public class StatCalculations : MonoBehaviour
                 i.item.Update(stats, i.amount);
             }
             yield return new WaitForSeconds(1f);
-            StartCoroutine(ItemUpdate());
         }
     }
 

@@ -70,7 +70,6 @@ public class PlayerStats : MonoBehaviour
             i.item.Update(this, i.amount);
         }
         yield return new WaitForSeconds(1f);
-        StartCoroutine(ItemUpdate());
     }
 
     private void FixedUpdate()
