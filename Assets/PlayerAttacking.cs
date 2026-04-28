@@ -39,7 +39,7 @@ public class PlayerAttacking : MonoBehaviour
         {
             timer = 0;
             //Attack();
-            Debug.Log("Attack!");
+            //Debug.Log("Attack!");
 
             UnityEngine.Vector3 mouseScreenPosition = Mouse.current.position.ReadValue();
             mouseScreenPosition.z = Camera.main.WorldToScreenPoint(transform.position).z;

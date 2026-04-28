@@ -3,73 +3,55 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour, ICombatStats
 {
     //Health related player stats
-    public float baseMaxHealth = 100f;
+    public float baseMaxHealth;
     public float modifiedMaxHealth;
     public float currentHealth;
 
     //Combat related player stats
-    public float baseAttackDamage = 10f;
+    public float baseAttackDamage;
     public float modifiedAttackDamage;
-    public float baseFireRate = 1f;
+    public float Damage { get; set; }
+    public float baseFireRate;
     public float modifiedFireRate;
-    public float baseAttackRange = 5f;
+    public float baseAttackRange;
     public float modifiedAttackRange;
-    public float baseArmor = 0f;
+    public float baseArmor;
     public float modifiedArmor;
+    public float Armor { get; set; }
 
     //Movement related player stats
-    public float baseMoveSpeed = 5f;
+    public float baseMoveSpeed;
     public float modifiedMoveSpeed;
     
     //Misc player stats
-    public float invincibilityDuration =0.5f;
-    public float baseHealthRegen = 1f;
-    public float modifiedHealthRegen = 0f;
-    public float dodgeChance = 0f;
-    public float modifieddodgeChance = 0f;
+    public float invincibilityDuration;
+    public float baseHealthRegen;
+    public float modifiedHealthRegen;
+    public float dodgeChance;
+    public float modifieddodgeChance;
     public List<ItemList> items = new List<ItemList>();
 
     void Awake()
     {
-        //RegenItem item = new RegenItem();
-        //items.Add(new ItemList(item, item.GiveName(), 1));
-        //Stake item2 = new Stake();
-        //items.Add(new ItemList(item2, item2.GiveName(), 1));
-
         StartCoroutine(ItemUpdate());
 
         //Stats initialization to modified stats
-        modifiedMaxHealth = baseMaxHealth;
-        currentHealth = modifiedMaxHealth;
-
-        modifiedAttackDamage = baseAttackDamage;
-        modifiedFireRate = baseFireRate;
-        modifiedAttackRange = baseAttackRange;
-        modifiedArmor = baseArmor;
-        modifieddodgeChance = dodgeChance;
-
-        modifiedMoveSpeed = baseMoveSpeed;
-        modifiedHealthRegen = baseHealthRegen;
+        attackdamageCalculation();
+        armorCalculation();
     }
-
-    //public void CallItemOnPickup()
-    //{
-    //    foreach (ItemList i in items)
-    //    {
-    //        i.item.onPickup(this, i.amount);
-    //    }
-    //}
 
     IEnumerator ItemUpdate()
     {
-        foreach (ItemList i in items)
-        {
-            i.item.Update(this, i.amount);
+        while (true) {
+            foreach (ItemList i in items)
+            {
+                i.item.Update(this, i.amount);
+            }
+            yield return new WaitForSeconds(3f);
         }
-        yield return new WaitForSeconds(1f);
     }
 
     private void FixedUpdate()
@@ -107,14 +89,18 @@ public class PlayerStats : MonoBehaviour
 
     public void attackdamageCalculation()
     {
+        //Debug.Log("base attack damage: " + baseAttackDamage);
         modifiedAttackDamage = baseAttackDamage;
         foreach (ItemList i in items)
         {
             if (i.name == "Stake")
             {
                 modifiedAttackDamage += 5 + ((i.amount - 1) * 2);
+                //Debug.Log("Modified Attack Damage after " + i.amount + " " + i.name + ": " + modifiedAttackDamage);
             }
         }
+        Damage = modifiedAttackDamage;
+        //Debug.Log("Attack Damage: " + Damage);
     }
 
     public void speedCalculation()
@@ -139,6 +125,8 @@ public class PlayerStats : MonoBehaviour
                 modifiedArmor += 5 * i.amount;
             }
         }
+        Armor = modifiedArmor;
+        Debug.Log("Armor: " + Armor);
     }
 
     public void dodgeChanceCalculation()

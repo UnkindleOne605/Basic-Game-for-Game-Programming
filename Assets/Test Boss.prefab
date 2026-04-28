@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 3892827708104438717}
   - component: {fileID: 5432637043891316239}
   - component: {fileID: 3176337367067480357}
+  - component: {fileID: 5329371049367249659}
   m_Layer: 0
   m_Name: Body
   m_TagString: CorruptedStatueBody
@@ -155,17 +156,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae24186fe9b1ea409e7ae02e7cab05c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatueBossStats
-  maxHealth: 1000
+  maxHealth: 100
   currentHealth: 0
-  attackDamage: 0
+  attackDamage: 10
   attackSpeed: 0
-  moveSpeed: 3
+  moveSpeed: 5
   tempMoveSpeed: 0
   healthRegen: 0
-  armor: 0
+  armor: 10
   attackRange: 0
   invincibilityDuration: 0
   combatDistance: 5
+  followDistance: 0
+  initialMoveSpeed: 0
+  returnMoveSpeed: 0
+  tolerance: 0.15
+  offset: 1.5
+  slamHeight: 1.5
+  slamDown: 5
 --- !u!50 &5432637043891316239
 Rigidbody2D:
   serializedVersion: 5
@@ -230,6 +238,22 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &5329371049367249659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2780103387861368984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50032a0ae9d13d1439a767f4051f18c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatueBossHurtbox
+  enemy: {fileID: 3892827708104438717}
+  player: {fileID: 4089681507201079003, guid: 5f06f0c2116f5224c9c8cbca0b4301bd, type: 3}
+  body: {fileID: 5432637043891316239}
+  timer: 0
 --- !u!1 &5549762570030810454
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,9 +265,10 @@ GameObject:
   - component: {fileID: 5088643232916856192}
   - component: {fileID: 6261530145490967361}
   - component: {fileID: 4447571006461894702}
-  - component: {fileID: 6631549230604013489}
   - component: {fileID: 3673299240307774931}
   - component: {fileID: 1680631414726020930}
+  - component: {fileID: 6009102458528780702}
+  - component: {fileID: 5597375573270863355}
   m_Layer: 0
   m_Name: Right Hand
   m_TagString: Untagged
@@ -338,35 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RightHandMove
   handBodyR: {fileID: 3673299240307774931}
   handSpriteR: {fileID: 6261530145490967361}
-  handStatsR: {fileID: 6631549230604013489}
-  tolerance: 0.15
-  slamHeight: 1.5
-  slamDown: 5
-  offset: 1.5
---- !u!114 &6631549230604013489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5549762570030810454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2b21d9d3ad355044ac0b8f46e6298b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HandStats
-  maxHealth: 500
-  currentHealth: 0
-  attackDamage: 0
-  attackSpeed: 0
-  moveSpeed: 0
-  initialMoveSpeed: 2
-  returnMoveSpeed: 20
-  healthRegen: 0
-  armor: 0
-  attackRange: 0
-  invincibilityDuration: 0
-  followDistance: 1.5
+  handStatsR: {fileID: 6009102458528780702}
 --- !u!50 &3673299240307774931
 Rigidbody2D:
   serializedVersion: 5
@@ -430,6 +427,52 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &6009102458528780702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549762570030810454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae24186fe9b1ea409e7ae02e7cab05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatueBossStats
+  maxHealth: 50
+  currentHealth: 0
+  attackDamage: 10
+  attackSpeed: 0
+  moveSpeed: 5
+  tempMoveSpeed: 0
+  healthRegen: 0
+  armor: 15
+  attackRange: 0
+  invincibilityDuration: 0
+  combatDistance: 0
+  followDistance: 0
+  initialMoveSpeed: 5
+  returnMoveSpeed: 20
+  tolerance: 0.15
+  offset: 1.5
+  slamHeight: 1.5
+  slamDown: 5
+--- !u!114 &5597375573270863355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5549762570030810454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50032a0ae9d13d1439a767f4051f18c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatueBossHurtbox
+  enemy: {fileID: 6009102458528780702}
+  player: {fileID: 4089681507201079003, guid: 5f06f0c2116f5224c9c8cbca0b4301bd, type: 3}
+  body: {fileID: 3673299240307774931}
+  timer: 0
 --- !u!1 &7706639645473690669
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,9 +484,10 @@ GameObject:
   - component: {fileID: 1251951505123962740}
   - component: {fileID: 3688668920926024992}
   - component: {fileID: 8861871422776047487}
-  - component: {fileID: 7062624020077980405}
   - component: {fileID: 6753077113745064093}
   - component: {fileID: 8123333698304624661}
+  - component: {fileID: 6452934887712468840}
+  - component: {fileID: 14118615533326822}
   m_Layer: 0
   m_Name: Left Hand
   m_TagString: Untagged
@@ -538,33 +582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LeftHandMove
   handBodyL: {fileID: 8123333698304624661}
   handSpriteL: {fileID: 3688668920926024992}
-  handStatsL: {fileID: 7062624020077980405}
-  tolerance: 0.15
-  offset: 1.5
---- !u!114 &7062624020077980405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7706639645473690669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2b21d9d3ad355044ac0b8f46e6298b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HandStats
-  maxHealth: 500
-  currentHealth: 0
-  attackDamage: 0
-  attackSpeed: 0
-  moveSpeed: 0
-  initialMoveSpeed: 2
-  returnMoveSpeed: 15
-  healthRegen: 0
-  armor: 0
-  attackRange: 0
-  invincibilityDuration: 0
-  followDistance: 1.5
+  handStatsL: {fileID: 14118615533326822}
 --- !u!58 &6753077113745064093
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -628,3 +646,49 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6452934887712468840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7706639645473690669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50032a0ae9d13d1439a767f4051f18c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatueBossHurtbox
+  enemy: {fileID: 14118615533326822}
+  player: {fileID: 4089681507201079003, guid: 5f06f0c2116f5224c9c8cbca0b4301bd, type: 3}
+  body: {fileID: 8123333698304624661}
+  timer: 0
+--- !u!114 &14118615533326822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7706639645473690669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae24186fe9b1ea409e7ae02e7cab05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatueBossStats
+  maxHealth: 50
+  currentHealth: 0
+  attackDamage: 10
+  attackSpeed: 0
+  moveSpeed: 5
+  tempMoveSpeed: 0
+  healthRegen: 0
+  armor: 8
+  attackRange: 0
+  invincibilityDuration: 0
+  combatDistance: 0
+  followDistance: 0
+  initialMoveSpeed: 5
+  returnMoveSpeed: 20
+  tolerance: 0.15
+  offset: 1.5
+  slamHeight: 1.5
+  slamDown: 5

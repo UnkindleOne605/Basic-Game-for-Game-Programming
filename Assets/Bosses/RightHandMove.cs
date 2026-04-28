@@ -6,12 +6,7 @@ public class RightHandMove : MonoBehaviour
 {
     public Rigidbody2D handBodyR;
     public SpriteRenderer handSpriteR;
-    public HandStats handStatsR;
-
-    public float tolerance = 0.15f;
-    public float slamHeight = 1.5f;
-    public float slamDown = 5f;
-    public float offset = 1.5f;
+    public StatueBossStats handStatsR;
     private Transform target;
     private Transform mainBody;
     private UnityEngine.Vector3 rightHandPosition;
@@ -22,12 +17,7 @@ public class RightHandMove : MonoBehaviour
 
     void Start()
     {
-        handBodyR = GetComponent<Rigidbody2D>();
-        handSpriteR = GetComponent<SpriteRenderer>();
-        handStatsR = GetComponent<HandStats>();
-        mainBody = GameObject.FindGameObjectWithTag("CorruptedStatueBody").transform;  
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-        handStatsR.moveSpeed = handStatsR.initialMoveSpeed;
+        Initialize();
     }
 
     void Update()
@@ -46,11 +36,11 @@ public class RightHandMove : MonoBehaviour
     //Follows the main body with a slight offset
     void FollowBody()
     {
-        //Debug.Log("body: " + mainBody.position);
-        rightHandPosition = mainBody.position + new UnityEngine.Vector3(-offset, 0, 0); 
-        transform.position = UnityEngine.Vector2.MoveTowards(transform.position, rightHandPosition, handStatsR.moveSpeed * Time.deltaTime);
+        Debug.Log("body: " + mainBody.position);
+        rightHandPosition = mainBody.position + new UnityEngine.Vector3(-handStatsR.offset, 0, 0); 
+        transform.position = UnityEngine.Vector3.MoveTowards(transform.position, rightHandPosition, handStatsR.moveSpeed * Time.deltaTime);
         //bodyDistance = Vector2.Distance(transform.position, mainBody.position);
-        if (UnityEngine.Vector2.Distance(transform.position, rightHandPosition) <= tolerance)
+        if (UnityEngine.Vector3.Distance(transform.position, rightHandPosition) <= handStatsR.tolerance)
         {
             handStatsR.moveSpeed = handStatsR.initialMoveSpeed;
         }
@@ -67,7 +57,7 @@ public class RightHandMove : MonoBehaviour
         }
         else
         {
-            if (UnityEngine.Vector2.Distance(transform.position, slamPosition + new UnityEngine.Vector3(0, slamHeight, 0)) <= tolerance || slamming == true)
+            if (UnityEngine.Vector2.Distance(transform.position, slamPosition + new UnityEngine.Vector3(0, handStatsR.slamHeight, 0)) <= handStatsR.tolerance || slamming == true)
             {
                 slamming = true;
                 //Debug.Log("Slamming down!");
@@ -83,7 +73,7 @@ public class RightHandMove : MonoBehaviour
             }
             else {
                 //Debug.Log("Moving to slam position!");
-                transform.position = UnityEngine.Vector2.MoveTowards(transform.position, slamPosition + new UnityEngine.Vector3(0, slamHeight, 0), handStatsR.moveSpeed * Time.deltaTime);
+                transform.position = UnityEngine.Vector2.MoveTowards(transform.position, slamPosition + new UnityEngine.Vector3(0, handStatsR.slamHeight, 0), handStatsR.moveSpeed * Time.deltaTime);
                 //Debug.Log("Right hand position: " + transform.position + " Slam position: " + slamPosition);
             }
         }
@@ -92,5 +82,15 @@ public class RightHandMove : MonoBehaviour
     void Shield()
     {
         //Hand will cover main body blocking incoming attacks, right hand has higher defense than left hand
+    }
+
+    void Initialize()
+    {
+        handBodyR = GetComponent<Rigidbody2D>();
+        handSpriteR = GetComponent<SpriteRenderer>();
+        handStatsR = GetComponent<StatueBossStats>();
+        mainBody = GameObject.FindGameObjectWithTag("CorruptedStatueBody").transform;  
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        handStatsR.moveSpeed = handStatsR.initialMoveSpeed;
     }
 }

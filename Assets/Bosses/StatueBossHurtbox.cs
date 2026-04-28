@@ -1,25 +1,20 @@
 using UnityEngine;
 
-public class Boss1Hurtbox : MonoBehaviour
+public class StatueBossHurtbox : MonoBehaviour
 {
-    public StatueBossStats boss;
+    public StatueBossStats enemy;
     public PlayerStats player;
     public Rigidbody2D body;
-    public GameObject loot;
     public float timer;
 
     private bool isDead = false;
 
     void Start()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-        }
-
-        boss = transform.GetComponentInParent<StatueBossStats>();
+        enemy = transform.GetComponentInParent<StatueBossStats>();
         body = transform.GetComponentInParent<Rigidbody2D>();
-        boss.currentHealth = boss.maxHealth;
+        enemy.currentHealth = enemy.maxHealth;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 
     void Update()
@@ -27,14 +22,13 @@ public class Boss1Hurtbox : MonoBehaviour
         timer += Time.deltaTime;
 
         //Debug.Log(hp.currentHealth);
-        if (boss.currentHealth <= 0 && !isDead)
+        if (enemy.currentHealth <= 0 && !isDead)
         {   
-            Instantiate(loot, transform.position, Quaternion.identity);
             isDead = true;
             Destroy(body.gameObject);
-            Debug.Log("Enemy Defeated");
-            
-            
+            Debug.Log("Boss Defeated");
+
+            //Run Victory or Level Complete Code
         }
     }
 
@@ -42,9 +36,11 @@ public class Boss1Hurtbox : MonoBehaviour
     {
         if (collision.CompareTag("PlayerProjectile"))
         {
-            if (timer > boss.invincibilityDuration)
+            if (timer > enemy.invincibilityDuration)
             {
-                boss.TakeDamage(CombatCalculation.CalculateDamage(player, boss));
+                //Debug.Log($"Player null? {player == null}");
+                //Debug.Log($"Enemy null? {enemy == null}");
+                enemy.TakeDamage(CombatCalculation.CalculateDamage(player, enemy));
                 Debug.Log("Hit");
                 Destroy(collision.gameObject);
                 timer = 0f;

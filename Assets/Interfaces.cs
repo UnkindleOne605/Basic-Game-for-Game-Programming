@@ -12,6 +12,7 @@ public interface IHealable
 
 public interface ICombatStats
 {
+    float Damage { get; }
     float Armor { get; }
 }
 

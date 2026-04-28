@@ -7,6 +7,7 @@ TagManager:
   - CorruptedStatueF1
   - PlayerProjectile
   - CorruptedStatueBody
+  - Director
   layers:
   - Default
   - TransparentFX

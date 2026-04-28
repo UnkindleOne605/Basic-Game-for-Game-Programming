@@ -11,7 +11,7 @@ public class BasicProjectile : MonoBehaviour
     private UnityEngine.Vector3 startPosition;
     public void Setup(UnityEngine.Vector3 direction)
     {
-        Debug.Log("Setting direction: " + direction);
+        //Debug.Log("Setting direction: " + direction);
         this.direction = direction;
         startPosition = transform.position;
     }

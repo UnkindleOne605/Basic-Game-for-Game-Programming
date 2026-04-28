@@ -104,3 +104,4 @@ public class CandleFlamer : Item
         return "Candle Flamer";
     }
 }
+

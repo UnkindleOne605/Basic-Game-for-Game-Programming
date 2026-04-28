@@ -4,7 +4,7 @@ public class HandStats : MonoBehaviour, ICombatStats
 {
     public float maxHealth;
     public float currentHealth;
-    public float attackDamage;
+    public float Damage{ get; set; }
     public float attackSpeed;
     public float moveSpeed;
     public float initialMoveSpeed;

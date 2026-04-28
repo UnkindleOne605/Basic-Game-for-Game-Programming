@@ -188,10 +188,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   maxHealth: 3
   currentHealth: 0
-  attackDamage: 3
+  baseDamage: 3
   attackSpeed: 0
   moveSpeed: 1
   healthRegen: 0
+  armor: 3
   attackRange: 0.5
   invincibilityDuration: 0
 --- !u!114 &708281097668086032
@@ -206,8 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9dfffd4444d4b4184a5bb6751b4189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::hurtbox
-  hp: {fileID: 3021308736184184576}
+  enemy: {fileID: 3021308736184184576}
   player: {fileID: 4089681507201079003, guid: 5f06f0c2116f5224c9c8cbca0b4301bd, type: 3}
   body: {fileID: 503148734785969569}
-  loot: {fileID: 6677229148519981615, guid: c70e9d0028ece89408041817653b01ac, type: 3}
   timer: 0

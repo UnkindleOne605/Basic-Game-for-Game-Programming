@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class hurtbox : MonoBehaviour
 {
-    public EnemyStats hp;
+    public EnemyStats enemy;
     public PlayerStats player;
     public Rigidbody2D body;
     public float timer;
@@ -13,14 +13,10 @@ public class hurtbox : MonoBehaviour
 
     void Start()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-        }
-
-        hp = transform.GetComponentInParent<EnemyStats>();
+        enemy = transform.GetComponentInParent<EnemyStats>();
         body = transform.GetComponentInParent<Rigidbody2D>();
-        hp.currentHealth = hp.maxHealth;
+        enemy.currentHealth = enemy.maxHealth;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 
     void Update()
@@ -28,7 +24,7 @@ public class hurtbox : MonoBehaviour
         timer += Time.deltaTime;
 
         //Debug.Log(hp.currentHealth);
-        if (hp.currentHealth <= 0 && !isDead)
+        if (enemy.currentHealth <= 0 && !isDead)
         {   
             isDead = true;
             Destroy(body.gameObject);
@@ -40,11 +36,17 @@ public class hurtbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //Debug.Log("Ontrigger Works");
         if (collision.CompareTag("PlayerProjectile"))
         {
-            if (timer > hp.invincibilityDuration)
+            //Debug.Log("Collision PlayerProjectile Works");
+            if (timer > enemy.invincibilityDuration)
             {
-                hp.TakeDamage(CombatCalculation.CalculateDamage(player, hp));
+                //Debug.Log("If statement works");
+                //Debug.Log("Player Power: " + player.Damage + "Enemy Defense: " + enemy.Armor);
+                Debug.Log($"Player null? {player == null}");
+                Debug.Log($"Enemy null? {enemy == null}");
+                enemy.TakeDamage(CombatCalculation.CalculateDamage(player, enemy));
                 Debug.Log("Hit");
                 Destroy(collision.gameObject);
                 timer = 0f;
