@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StatueBodyMovement : MonoBehaviour
@@ -5,18 +6,23 @@ public class StatueBodyMovement : MonoBehaviour
     public Rigidbody2D statueBody;
     public SpriteRenderer statueSprite;
     public StatueBossStats enemyStats;
+    private float leftHandTimer;
+    private float rightHandTimer;
     private float distanceToPlayer;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        statueBody = GetComponent<Rigidbody2D>();
-        statueSprite = GetComponent<SpriteRenderer>();
-        enemyStats = GetComponent<StatueBossStats>();
+        Initialzie();
     }
 
     // Update is called once per frame
     void Update()
+    {
+        Move();
+    }
+
+    void Move()
     {
         UnityEngine.Vector3 targetPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
         UnityEngine.Vector3 direction = (targetPosition - transform.position).normalized;
@@ -36,5 +42,12 @@ public class StatueBodyMovement : MonoBehaviour
         {
             enemyStats.tempMoveSpeed = 0f;
         }
+    }
+
+    void Initialzie()
+    {
+        statueBody = GetComponent<Rigidbody2D>();
+        statueSprite = GetComponent<SpriteRenderer>();
+        enemyStats = GetComponent<StatueBossStats>();
     }
 }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkeletonActions : MonoBehaviour
@@ -10,13 +11,9 @@ public class SkeletonActions : MonoBehaviour
     [SerializeField] private Transform BasicProjectile;
 
     private UnityEngine.Vector2 target;
-    void Start()
+    void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
-        stats = GetComponent<EnemyStats>();
-        timer = stats.attackSpeed;
-        tempSpeed = stats.moveSpeed;
+        Initialize();
     }
 
     // Update is called once per frame
@@ -51,5 +48,14 @@ public class SkeletonActions : MonoBehaviour
         direction.Normalize();
         Transform projectileTransform = Instantiate(BasicProjectile, transform.position, UnityEngine.Quaternion.identity);
         projectileTransform.GetComponent<BasicProjectile>().Setup(direction);
+    }
+
+    void Initialize()
+    {
+        body = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
+        stats = GetComponent<EnemyStats>();
+        timer = stats.attackSpeed;
+        tempSpeed = stats.moveSpeed;
     }
 }

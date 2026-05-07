@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boss1Hurtbox : MonoBehaviour
@@ -10,16 +11,9 @@ public class Boss1Hurtbox : MonoBehaviour
 
     private bool isDead = false;
 
-    void Start()
+    void Awake()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-        }
-
-        boss = transform.GetComponentInParent<StatueBossStats>();
-        body = transform.GetComponentInParent<Rigidbody2D>();
-        boss.currentHealth = boss.maxHealth;
+        Initialize();
     }
 
     void Update()
@@ -32,9 +26,7 @@ public class Boss1Hurtbox : MonoBehaviour
             Instantiate(loot, transform.position, Quaternion.identity);
             isDead = true;
             Destroy(body.gameObject);
-            Debug.Log("Enemy Defeated");
-            
-            
+            Debug.Log("Enemy Defeated"); 
         }
     }
 
@@ -50,5 +42,17 @@ public class Boss1Hurtbox : MonoBehaviour
                 timer = 0f;
             }
         }
+    }
+
+    void Initialize()
+    {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        }
+
+        boss = transform.GetComponentInParent<StatueBossStats>();
+        body = transform.GetComponentInParent<Rigidbody2D>();
+        boss.currentHealth = boss.maxHealth;
     }
 }

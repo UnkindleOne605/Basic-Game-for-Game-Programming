@@ -1,5 +1,6 @@
 using System.Numerics;
 using System.Threading;
+using System.Timers;
 using UnityEngine;
 
 public class RightHandMove : MonoBehaviour
@@ -7,24 +8,34 @@ public class RightHandMove : MonoBehaviour
     public Rigidbody2D handBodyR;
     public SpriteRenderer handSpriteR;
     public StatueBossStats handStatsR;
+    public StatueBossStats statueBody;
+    public PlayerStats player;
     private Transform target;
     private Transform mainBody;
     private UnityEngine.Vector3 rightHandPosition;
     private UnityEngine.Vector3 slamPosition;
     private bool lockedOn = false;
     private bool slamming = false;
+    private bool shielding = false;
     private float timer = 0f;
+    private float slamTimer = 0f;
+    private float shieldTimer = 0f;
+    public float slamCooldown;
+    public float shieldCooldown;
+    public float shieldDuration;
 
-    void Start()
+    void Awake()
     {
         Initialize();
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= 5f)
+        Timers();
+
+        if (slamTimer >= slamCooldown || slamming == true)
         {
+            Debug.Log("Slamming");
             Slam();
         }
         else
@@ -36,10 +47,9 @@ public class RightHandMove : MonoBehaviour
     //Follows the main body with a slight offset
     void FollowBody()
     {
-        Debug.Log("body: " + mainBody.position);
+        //Debug.Log("Following: " + mainBody.position);
         rightHandPosition = mainBody.position + new UnityEngine.Vector3(-handStatsR.offset, 0, 0); 
         transform.position = UnityEngine.Vector3.MoveTowards(transform.position, rightHandPosition, handStatsR.moveSpeed * Time.deltaTime);
-        //bodyDistance = Vector2.Distance(transform.position, mainBody.position);
         if (UnityEngine.Vector3.Distance(transform.position, rightHandPosition) <= handStatsR.tolerance)
         {
             handStatsR.moveSpeed = handStatsR.initialMoveSpeed;
@@ -51,37 +61,50 @@ public class RightHandMove : MonoBehaviour
     {
         if (lockedOn == false)
         {
-            //Debug.Log("Target: " + target.position);
             slamPosition = target.position;
             lockedOn = true;
         }
-        else
+        else if (lockedOn == true)
         {
-            if (UnityEngine.Vector2.Distance(transform.position, slamPosition + new UnityEngine.Vector3(0, handStatsR.slamHeight, 0)) <= handStatsR.tolerance || slamming == true)
+            //if hand in correct position start the slam
+            if (UnityEngine.Vector2.Distance(transform.position, slamPosition + new UnityEngine.Vector3(0, handStatsR.slamHeight, 0)) <= handStatsR.tolerance)
             {
+                handStatsR.Damage = handStatsR.modifiedDamage;
+                lockedOn = false;
                 slamming = true;
-                //Debug.Log("Slamming down!");
-                transform.position = UnityEngine.Vector2.MoveTowards(transform.position, slamPosition, handStatsR.moveSpeed * Time.deltaTime);
-                if (transform.position == slamPosition)
-                {
-                    //Debug.Log("Slammed!");
-                    lockedOn = false;
-                    slamming = false;
-                    timer = 0f;
-                    handStatsR.moveSpeed = handStatsR.returnMoveSpeed;
-                }
             }
+            //else if hand not in position get to position
             else {
-                //Debug.Log("Moving to slam position!");
                 transform.position = UnityEngine.Vector2.MoveTowards(transform.position, slamPosition + new UnityEngine.Vector3(0, handStatsR.slamHeight, 0), handStatsR.moveSpeed * Time.deltaTime);
-                //Debug.Log("Right hand position: " + transform.position + " Slam position: " + slamPosition);
             }
+        }
+        else if (slamming == true)
+        {
+            transform.position = UnityEngine.Vector2.MoveTowards(transform.position, slamPosition, handStatsR.moveSpeed * Time.deltaTime);
+
+            if (transform.position == slamPosition)
+                {
+                    handStatsR.Damage = handStatsR.attackDamage;
+                    slamTimer = 0f;
+                    handStatsR.moveSpeed = handStatsR.returnMoveSpeed;
+                    slamming = false;
+                    lockedOn = false;
+                }
         }
     }
 
     void Shield()
     {
-        //Hand will cover main body blocking incoming attacks, right hand has higher defense than left hand
+        //Animation here
+        if (shielding == false)
+        {
+            statueBody.Armor -= handStatsR.Armor;     
+        }
+        if (shielding == true)
+        {
+            statueBody.Armor += handStatsR.Armor;
+        }
+        
     }
 
     void Initialize()
@@ -92,5 +115,27 @@ public class RightHandMove : MonoBehaviour
         mainBody = GameObject.FindGameObjectWithTag("CorruptedStatueBody").transform;  
         target = GameObject.FindGameObjectWithTag("Player").transform;
         handStatsR.moveSpeed = handStatsR.initialMoveSpeed;
+        statueBody = GameObject.FindGameObjectWithTag("CorruptedStatueBody").GetComponent<StatueBossStats>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (timer > player.invincibilityDuration)
+            {
+                player.TakeDamage(CombatCalculation.CalculateDamage(handStatsR, player));
+                timer = 0f;
+            }
+        }
+    }
+
+    void Timers()
+    {
+        timer += Time.deltaTime;
+        slamTimer += Time.deltaTime;
+        shieldTimer += Time.deltaTime;
+    }
+
 }

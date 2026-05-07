@@ -10,18 +10,19 @@ public class ItemPickup : MonoBehaviour
 
     void Start()
     {
-        item = AssignItem(itemDrop);  
+
     }
 
     void Awake()
     {
-        
+        item = AssignItem(itemDrop); 
     } 
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
+            
             Debug.Log("Player picked up: " + item.GiveName());
             PlayerStats player = other.GetComponent<PlayerStats>();
             AddItem(player);

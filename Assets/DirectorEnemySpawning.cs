@@ -8,8 +8,8 @@ public class DirectorEnemySpawning : MonoBehaviour
     public UnityEngine.Vector2 spawnPosition;
     public UnityEngine.Vector2 randomDirection;
 
+    public GameObject[] enemies;
     public float distance;
-    public GameObject enemyPrefab;
     public GameObject bossPrefab;
     public float spawnRate;
     public float spawnTimer;
@@ -21,7 +21,7 @@ public class DirectorEnemySpawning : MonoBehaviour
     public bool bossSpawned = false;
     public float timer;
     private float worldTimer;
-    void Start()
+    void Awake()
     {
         timer = 0f;
     }
@@ -58,7 +58,11 @@ public class DirectorEnemySpawning : MonoBehaviour
         randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
         spawnPosition = playerPosition + (randomDirection * distance);
 
-        Instantiate(enemyPrefab, spawnPosition, UnityEngine.Quaternion.identity);
+        int randomIndex = Random.Range(0, enemies.Length);
+        
+        Debug.Log(enemies[randomIndex]);
+        Instantiate(enemies[randomIndex], spawnPosition, UnityEngine.Quaternion.identity);
+
         timer = 0f;
     }
 

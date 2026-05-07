@@ -13,6 +13,7 @@ public class EnemyStats : MonoBehaviour, ICombatStats
     public float Armor { get; set; }
     public float attackRange;
     public float invincibilityDuration;
+    public float goldDropped;
 
     public void TakeDamage(float damage)
     {

@@ -5,6 +5,7 @@ public class StatueBossStats : MonoBehaviour, ICombatStats
     public float maxHealth;
     public float currentHealth;
     public float attackDamage;
+    public float modifiedDamage;
     public float Damage { get; set; }
     public float attackSpeed;
     public float moveSpeed;
@@ -28,10 +29,11 @@ public class StatueBossStats : MonoBehaviour, ICombatStats
     public float slamDown;
 
     //Left hand Specific
-    void Start()
+    void Awake()
     {
         Damage = attackDamage;
         Armor = armor;
+        currentHealth = maxHealth;
     }
     public void TakeDamage(float damage)
     {

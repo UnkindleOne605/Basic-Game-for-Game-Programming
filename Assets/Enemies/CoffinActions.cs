@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CoffinActions : MonoBehaviour
@@ -9,15 +10,12 @@ public class CoffinActions : MonoBehaviour
     public float spawnTime = 5f;
     public float spawnRange = 2f;
     private float timer;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
-        stats = GetComponent<EnemyStats>();
+        Initialize();
     }
 
-    // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
@@ -33,12 +31,18 @@ public class CoffinActions : MonoBehaviour
 
     public void ChaseTarget(UnityEngine.Vector3 targetPosition)
     {
-        //Debug.Log("Chasing player...Location is " + targetPosition);
         transform.position = Vector2.MoveTowards(transform.position, targetPosition, stats.moveSpeed * Time.deltaTime);
     }
 
     public void SpawnZombie()
     {
         Instantiate(zombiePrefab, transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * spawnRange), Quaternion.identity);
+    }
+
+    void Initialize()
+    {
+        body = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
+        stats = GetComponent<EnemyStats>();
     }
 }

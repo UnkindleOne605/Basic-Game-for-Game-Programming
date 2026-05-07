@@ -32,6 +32,8 @@ public class PlayerStats : MonoBehaviour, ICombatStats
     public float modifiedHealthRegen;
     public float dodgeChance;
     public float modifieddodgeChance;
+
+    public float goldAmount;
     public List<ItemList> items = new List<ItemList>();
 
     void Awake()
@@ -41,6 +43,22 @@ public class PlayerStats : MonoBehaviour, ICombatStats
         //Stats initialization to modified stats
         attackdamageCalculation();
         armorCalculation();
+        
+        currentHealth = baseMaxHealth;
+        goldAmount = 0;
+    }
+
+    void Start()
+    {
+        
+    }
+
+    void Update()
+    {
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     IEnumerator ItemUpdate()
@@ -148,4 +166,27 @@ public class PlayerStats : MonoBehaviour, ICombatStats
             i.item.onPickup(this, i.amount);
         }
     }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        currentHealth = Mathf.Max(currentHealth, 0);
+    }
+
+    public void GainGold(float gainedGold)
+    {
+        goldAmount += gainedGold;
+    }
+
+    public void LoseGold(float lostGold)
+    {
+        goldAmount -= lostGold;
+    }
+
+    public void Die()
+    {
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
+    }
 }
+
+

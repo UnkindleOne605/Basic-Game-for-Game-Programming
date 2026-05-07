@@ -14,4 +14,5 @@ public class CombatCalculation : MonoBehaviour
         Debug.Log($"Damage after armor: {damage}");
         return Mathf.Max(damage, 1f); 
     }
+
 }

@@ -25,7 +25,7 @@ public class PlayerAttacking : MonoBehaviour
         playerAttack.Disable();
     }
 
-    void Start()
+    void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();

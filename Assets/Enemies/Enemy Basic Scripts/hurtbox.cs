@@ -11,46 +11,50 @@ public class hurtbox : MonoBehaviour
 
     private bool isDead = false;
 
-    void Start()
+    void Awake()
     {
-        enemy = transform.GetComponentInParent<EnemyStats>();
-        body = transform.GetComponentInParent<Rigidbody2D>();
-        enemy.currentHealth = enemy.maxHealth;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        Initialize();
     }
 
     void Update()
     {
         timer += Time.deltaTime;
 
-        //Debug.Log(hp.currentHealth);
         if (enemy.currentHealth <= 0 && !isDead)
         {   
             isDead = true;
             Destroy(body.gameObject);
             Debug.Log("Enemy Defeated");
-            
-            
+            player.GainGold(enemy.goldDropped);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("Ontrigger Works");
         if (collision.CompareTag("PlayerProjectile"))
         {
-            //Debug.Log("Collision PlayerProjectile Works");
             if (timer > enemy.invincibilityDuration)
             {
-                //Debug.Log("If statement works");
-                //Debug.Log("Player Power: " + player.Damage + "Enemy Defense: " + enemy.Armor);
-                Debug.Log($"Player null? {player == null}");
-                Debug.Log($"Enemy null? {enemy == null}");
                 enemy.TakeDamage(CombatCalculation.CalculateDamage(player, enemy));
-                Debug.Log("Hit");
                 Destroy(collision.gameObject);
                 timer = 0f;
             }
         }
+        if (collision.CompareTag("Player"))
+        {
+            if (timer > player.invincibilityDuration)
+            {
+                player.TakeDamage(CombatCalculation.CalculateDamage(enemy, player));
+                timer = 0f;
+            }
+        }
+    }
+
+    void Initialize()
+    {
+        enemy = transform.GetComponentInParent<EnemyStats>();
+        body = transform.GetComponentInParent<Rigidbody2D>();
+        enemy.currentHealth = enemy.maxHealth;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 }

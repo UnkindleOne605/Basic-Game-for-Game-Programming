@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9052511813725123999}
   - component: {fileID: 224036794887656158}
   - component: {fileID: 4251643287273842784}
+  - component: {fileID: 7393810006480193739}
   m_Layer: 0
   m_Name: Director
   m_TagString: Director
@@ -48,12 +49,14 @@ MonoBehaviour:
   playerPosition: {x: 0, y: 0}
   spawnPosition: {x: 0, y: 0}
   randomDirection: {x: 0, y: 0}
+  enemies:
+  - {fileID: 6680291993735228550, guid: 5e8bdb54ce3293b489da582bd814e139, type: 3}
+  - {fileID: 2850465630582461234, guid: b979955833e8c004f907b25cc5056fd9, type: 3}
   distance: 5
-  enemyPrefab: {fileID: 1370692591271049011, guid: ab322e442095fa844a9e255f15eb3fbd, type: 3}
   bossPrefab: {fileID: 2638705899540304358, guid: 1ff3029845e91464ea0419d6ae144350, type: 3}
   spawnRate: 0
   spawnTimer: 0
-  baseSpawnRate: 1
+  baseSpawnRate: 0
   timerSpawnScaling: 1.5
   spawnMultiplier: 0
   worldTimerEventTriggerTime: 60
@@ -75,6 +78,24 @@ MonoBehaviour:
   worldTimer: 0
   minutes: 0
   seconds: 0
+--- !u!114 &7393810006480193739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912612225389523518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 014b91333033b3d439e9b2b9fb6668a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DirectorItemSpawning
+  spawnPosition: {x: 0, y: 0}
+  distanceFromChest: 0
+  chests: []
+  spawnChest: {fileID: 7704080452816111940, guid: 1a6be7f6238d998489981ba86f6dbeec, type: 3}
+  spawnAmount: 10
+  spread: 5
 --- !u!1 &6736304547116437764
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +139,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9080186611378225704
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -163,6 +185,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 2923730493684522135, guid: 167f1198cf8f4c342898e91fc67a33b8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -172,7 +195,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &6259598893387527688
 Rigidbody2D:
@@ -231,6 +253,7 @@ MonoBehaviour:
   modifiedHealthRegen: 0
   dodgeChance: 0
   modifieddodgeChance: 0
+  goldAmount: 0
   items: []
   references:
     version: 2

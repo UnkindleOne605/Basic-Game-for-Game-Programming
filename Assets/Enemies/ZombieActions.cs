@@ -1,41 +1,38 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ZombieActions : MonoBehaviour
 {
     public Rigidbody2D body;
     public SpriteRenderer sprite;
-    public EnemyStats stats;
+    public EnemyStats zombie;
+    public PlayerStats player;
+    private float timer;
 
     private UnityEngine.Vector2 target;
-    void Start()
+    void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
-        stats = GetComponent<EnemyStats>();
+        Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
-        UnityEngine.Vector3 targetPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
-        if (stats.attackRange > Vector2.Distance(transform.position, targetPosition))
-        {
-            AttackTarget();
-        }
-        else
-        {
-            ChaseTarget(targetPosition);
-        }
+        timer += Time.deltaTime;
+        UnityEngine.Vector3 targetPosition = player.transform.position;
+        ChaseTarget(targetPosition);
     }
 
     public void ChaseTarget(UnityEngine.Vector3 targetPosition)
     {
-        //Debug.Log("Chasing player...Location is " + targetPosition);
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, stats.moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, zombie.moveSpeed * Time.deltaTime);
     }
 
-    public void AttackTarget()
+    void Initialize()
     {
-        //Debug.Log("Biting player...");
+        body = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
+        zombie = GetComponent<EnemyStats>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 }

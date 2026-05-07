@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2104223009742452167}
   - component: {fileID: 9189272927693324784}
   - component: {fileID: 8422336070263039348}
+  - component: {fileID: -9027363871841055407}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: PlayerProjectile
@@ -90,8 +91,6 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -113,7 +112,6 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -141,5 +139,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicProjectile
   playerStats: {fileID: 4089681507201079003, guid: 5f06f0c2116f5224c9c8cbca0b4301bd, type: 3}
-  speed: 10
-  range: 10
+  projectile: {fileID: -9027363871841055407}
+--- !u!114 &-9027363871841055407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871060145608643182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d21916dacf8f4af4ba52dce6476c6a63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileStats
+  speed: 7

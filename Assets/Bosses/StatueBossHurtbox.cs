@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StatueBossHurtbox : MonoBehaviour
@@ -9,19 +10,15 @@ public class StatueBossHurtbox : MonoBehaviour
 
     private bool isDead = false;
 
-    void Start()
+    void Awake()
     {
-        enemy = transform.GetComponentInParent<StatueBossStats>();
-        body = transform.GetComponentInParent<Rigidbody2D>();
-        enemy.currentHealth = enemy.maxHealth;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        Initialize();
     }
 
     void Update()
     {
         timer += Time.deltaTime;
-
-        //Debug.Log(hp.currentHealth);
+        
         if (enemy.currentHealth <= 0 && !isDead)
         {   
             isDead = true;
@@ -38,13 +35,27 @@ public class StatueBossHurtbox : MonoBehaviour
         {
             if (timer > enemy.invincibilityDuration)
             {
-                //Debug.Log($"Player null? {player == null}");
-                //Debug.Log($"Enemy null? {enemy == null}");
                 enemy.TakeDamage(CombatCalculation.CalculateDamage(player, enemy));
-                Debug.Log("Hit");
                 Destroy(collision.gameObject);
                 timer = 0f;
             }
         }
+        else if (collision.CompareTag("Player"))
+        {
+            if (timer > player.invincibilityDuration)
+            {
+                player.TakeDamage(CombatCalculation.CalculateDamage(enemy, player));
+                timer = 0f;
+            }
+        }
     }
+
+    void Initialize()
+    {
+        enemy = transform.GetComponentInParent<StatueBossStats>();
+        body = transform.GetComponentInParent<Rigidbody2D>();
+        enemy.currentHealth = enemy.maxHealth;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+    }
+    
 }
