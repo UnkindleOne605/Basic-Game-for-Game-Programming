@@ -9,9 +9,11 @@ public class CandleDroneActions : MonoBehaviour
     public SpriteRenderer sprite;
 
     public float timer;
+    public float fireTimer;
     public float reloadTime;
     public float reloadSpeed;
     public float maxAmmo;
+    public float fireRate;
     private float currentAmmo;
     private float distanceToPlayer;
     private float tempMoveSpeed;
@@ -26,6 +28,8 @@ public class CandleDroneActions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
+        fireTimer += Time.deltaTime;
         
         UnityEngine.Vector3 targetPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
 
@@ -43,23 +47,17 @@ public class CandleDroneActions : MonoBehaviour
         
         if (distanceToPlayer < (drone.attackRange - 0.25f))
         {
-            Debug.Log("Too Close");
             tempMoveSpeed = drone.moveSpeed;
-            Debug.Log("Speed: " + tempMoveSpeed);
             transform.position -= direction * Time.deltaTime * tempMoveSpeed;
         }
         else if (distanceToPlayer > (drone.attackRange + 0.25f))
         {
-            Debug.Log("Too Far");
             tempMoveSpeed = drone.moveSpeed;
-            Debug.Log("Speed: " + tempMoveSpeed);
             transform.position += direction * Time.deltaTime * tempMoveSpeed;
         }
         else if (distanceToPlayer >= (drone.attackRange - 0.25f) && distanceToPlayer <= (drone.attackRange + 0.25f))
         {
             tempMoveSpeed = 0f;
-            Debug.Log("Perfect Distance");
-            Debug.Log("Speed: " + tempMoveSpeed);
         }
     }
 
@@ -89,11 +87,15 @@ public class CandleDroneActions : MonoBehaviour
         }
         else
         {
+            if (fireTimer < fireRate)
+            {
+                return;
+            }
             UnityEngine.Vector3 direction = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
             direction.z = 0;
             direction.Normalize();
             Transform projectileTransform = Instantiate(DroneProjectile, transform.position, UnityEngine.Quaternion.identity);
-            projectileTransform.GetComponent<BasicProjectile>().Setup(direction);
+            projectileTransform.GetComponent<DroneProjectile>().Setup(direction);
             currentAmmo -= 1;
         }
     }

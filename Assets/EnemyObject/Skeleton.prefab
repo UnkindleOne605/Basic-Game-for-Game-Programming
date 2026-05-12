@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 6257837367629711087}
   - component: {fileID: 6919729831372248080}
   - component: {fileID: 1782949711124806102}
-  - component: {fileID: 661758214046511607}
   - component: {fileID: 98629517373364978}
   - component: {fileID: 8999684108148111250}
+  - component: {fileID: 4109658973696490915}
   m_Layer: 0
   m_Name: Skeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,8 +31,8 @@ Transform:
   m_GameObject: {fileID: 6680291993735228550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.81041, y: 1.19726, z: 0}
-  m_LocalScale: {x: 0.59341, y: 0.59341, z: 0.59341}
+  m_LocalPosition: {x: 2.8522, y: 0.869, z: 0}
+  m_LocalScale: {x: 1.3574253, y: 1.4176565, z: 0.59341}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: -4105941142023942413, guid: 44752281e3e7d8c40aeebcddbe90a8af, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee783e123aa0ba4ca723eefa64a1aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  maxHealth: 3
+  maxHealth: 10
   currentHealth: 0
   baseDamage: 0
   attackSpeed: 3
@@ -130,7 +130,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 7
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
@@ -145,7 +145,39 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!70 &661758214046511607
+--- !u!114 &98629517373364978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6680291993735228550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff1eb65fec41a8d468b10d949f9b06a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkeletonActions
+  body: {fileID: 1782949711124806102}
+  sprite: {fileID: 6257837367629711087}
+  stats: {fileID: 6919729831372248080}
+  SkeletonProjectile: {fileID: 2492809059288571670, guid: 7edc294ff23596643887e1a1b97c9059, type: 3}
+--- !u!114 &8999684108148111250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6680291993735228550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb9dfffd4444d4b4184a5bb6751b4189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::hurtbox
+  enemy: {fileID: 6919729831372248080}
+  player: {fileID: 4089681507201079003, guid: 5f06f0c2116f5224c9c8cbca0b4301bd, type: 3}
+  body: {fileID: 1782949711124806102}
+  timer: 0
+--- !u!70 &4109658973696490915
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,38 +211,6 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Offset: {x: -0.045, y: 0.24499999}
+  m_Size: {x: 0.29, y: 0.48999998}
   m_Direction: 0
---- !u!114 &98629517373364978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6680291993735228550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff1eb65fec41a8d468b10d949f9b06a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SkeletonActions
-  body: {fileID: 1782949711124806102}
-  sprite: {fileID: 6257837367629711087}
-  stats: {fileID: 6919729831372248080}
-  BasicProjectile: {fileID: 2348106703936814651, guid: 644dc6120a37d6747b653c8a282bcefb, type: 3}
---- !u!114 &8999684108148111250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6680291993735228550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb9dfffd4444d4b4184a5bb6751b4189, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::hurtbox
-  enemy: {fileID: 6919729831372248080}
-  player: {fileID: 4089681507201079003, guid: 5f06f0c2116f5224c9c8cbca0b4301bd, type: 3}
-  body: {fileID: 1782949711124806102}
-  timer: 0

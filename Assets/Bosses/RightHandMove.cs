@@ -1,7 +1,9 @@
 using System.Numerics;
 using System.Threading;
 using System.Timers;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class RightHandMove : MonoBehaviour
 {
@@ -17,9 +19,12 @@ public class RightHandMove : MonoBehaviour
     private bool lockedOn = false;
     private bool slamming = false;
     private bool shielding = false;
+    private bool returning = false;
+    private float statueBodyOriginalArmor;
     private float timer = 0f;
     private float slamTimer = 0f;
     private float shieldTimer = 0f;
+    private float shieldDurationTimer = 0f;
     public float slamCooldown;
     public float shieldCooldown;
     public float shieldDuration;
@@ -27,27 +32,32 @@ public class RightHandMove : MonoBehaviour
     void Awake()
     {
         Initialize();
+        statueBodyOriginalArmor = statueBody.armor;
     }
 
+    //Basic logic and timers for how the code manages the cooldowns and actions
     void Update()
     {
         Timers();
 
-        if (slamTimer >= slamCooldown || slamming == true)
+        
+        if (slamming == false && shielding == false && lockedOn == false && slamTimer >= slamCooldown || slamming == true || lockedOn == true || returning == true)
         {
-            Debug.Log("Slamming");
             Slam();
         }
-        else
+        else if (slamming == false && shielding == false && lockedOn == false && shieldTimer >= shieldCooldown || shielding == true)
         {
-            FollowBody();
+            Shield();
+        }
+        else if (slamming == false && shielding == false && lockedOn == false && returning == false)
+        {
+             FollowBody();
         }
     }
 
     //Follows the main body with a slight offset
     void FollowBody()
     {
-        //Debug.Log("Following: " + mainBody.position);
         rightHandPosition = mainBody.position + new UnityEngine.Vector3(-handStatsR.offset, 0, 0); 
         transform.position = UnityEngine.Vector3.MoveTowards(transform.position, rightHandPosition, handStatsR.moveSpeed * Time.deltaTime);
         if (UnityEngine.Vector3.Distance(transform.position, rightHandPosition) <= handStatsR.tolerance)
@@ -59,12 +69,21 @@ public class RightHandMove : MonoBehaviour
     //Hand flies above player's position and slams down before returning to original position
     void Slam()
     {
-        if (lockedOn == false)
+        if (returning == true) 
+        {
+            transform.position = UnityEngine.Vector3.MoveTowards(transform.position, rightHandPosition, handStatsR.moveSpeed * Time.deltaTime);
+            if (transform.position == rightHandPosition)
+                {
+                    handStatsR.moveSpeed = handStatsR.initialMoveSpeed;
+                    returning = false;
+                }
+        }
+        else if (lockedOn == false && slamming == false)
         {
             slamPosition = target.position;
             lockedOn = true;
         }
-        else if (lockedOn == true)
+        else if (lockedOn == true && slamming == false)
         {
             //if hand in correct position start the slam
             if (UnityEngine.Vector2.Distance(transform.position, slamPosition + new UnityEngine.Vector3(0, handStatsR.slamHeight, 0)) <= handStatsR.tolerance)
@@ -72,39 +91,45 @@ public class RightHandMove : MonoBehaviour
                 handStatsR.Damage = handStatsR.modifiedDamage;
                 lockedOn = false;
                 slamming = true;
+                slamPosition = slamPosition + new UnityEngine.Vector3(0, -handStatsR.slamHeight, 0);
             }
             //else if hand not in position get to position
             else {
                 transform.position = UnityEngine.Vector2.MoveTowards(transform.position, slamPosition + new UnityEngine.Vector3(0, handStatsR.slamHeight, 0), handStatsR.moveSpeed * Time.deltaTime);
             }
         }
-        else if (slamming == true)
+        else if (slamming == true && lockedOn == false)
         {
             transform.position = UnityEngine.Vector2.MoveTowards(transform.position, slamPosition, handStatsR.moveSpeed * Time.deltaTime);
 
             if (transform.position == slamPosition)
                 {
-                    handStatsR.Damage = handStatsR.attackDamage;
+                    Debug.Log("Damage" + handStatsR.Damage);
+                    Debug.Log("Damage" + CombatCalculation.CalculateDamage(handStatsR, player));
                     slamTimer = 0f;
                     handStatsR.moveSpeed = handStatsR.returnMoveSpeed;
                     slamming = false;
                     lockedOn = false;
+                    returning = true;
                 }
         }
     }
 
     void Shield()
     {
+        Debug.Log("Shielding");
         //Animation here
-        if (shielding == false)
+        shielding = true;
+        handSpriteR.color = Color.blue;
+        statueBody.armor = statueBodyOriginalArmor + handStatsR.armor;
+
+        rightHandPosition = mainBody.position; 
+        transform.position = UnityEngine.Vector3.MoveTowards(transform.position, rightHandPosition, handStatsR.moveSpeed * Time.deltaTime);
+        if (UnityEngine.Vector3.Distance(transform.position, rightHandPosition) <= handStatsR.tolerance)
         {
-            statueBody.Armor -= handStatsR.Armor;     
+            handStatsR.moveSpeed = handStatsR.initialMoveSpeed;
         }
-        if (shielding == true)
-        {
-            statueBody.Armor += handStatsR.Armor;
-        }
-        
+
     }
 
     void Initialize()
@@ -136,6 +161,20 @@ public class RightHandMove : MonoBehaviour
         timer += Time.deltaTime;
         slamTimer += Time.deltaTime;
         shieldTimer += Time.deltaTime;
+        
+        if (shielding == true)
+        {
+            shieldDurationTimer += Time.deltaTime;
+
+            if (shieldDurationTimer >= shieldDuration)
+            {
+                shielding = false;
+                handSpriteR.color = Color.white;
+                statueBody.armor = statueBodyOriginalArmor;
+                shieldDurationTimer = 0f;
+                shieldTimer = 0f;
+            }
+        }
     }
 
 }

@@ -10,18 +10,14 @@ public class StatueBodyMovement : MonoBehaviour
     private float rightHandTimer;
     private float distanceToPlayer;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         Initialzie();
     }
-
-    // Update is called once per frame
     void Update()
     {
         Move();
     }
-
     void Move()
     {
         UnityEngine.Vector3 targetPosition = GameObject.FindGameObjectWithTag("Player").transform.position;

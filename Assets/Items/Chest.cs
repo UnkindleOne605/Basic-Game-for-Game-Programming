@@ -18,16 +18,16 @@ public class Chest : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collided");
+        //Debug.Log("Collided");
         if (collision.CompareTag("Player"))
         {
             if (player.goldAmount >= chestCost)
             {
-                Debug.Log("Player Bought Chest");
+                Debug.Log("Bought Chest");
                 player.LoseGold(chestCost);
                 
                 spawn.SpawnObject();
-                Debug.Log("Item Given");
+                //Debug.Log("Item Given");
             
                 Destroy(gameObject);
             }

@@ -30,7 +30,7 @@ public class ItemPickup : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        Debug.Log("Triggered by: " + other.name);
+        //Debug.Log("Triggered by: " + other.name);
     }
 
     public Item AssignItem(Items item)
@@ -51,10 +51,14 @@ public class ItemPickup : MonoBehaviour
                 return new MaceofRedemption();
             case Items.Shieldofredemption:
                 return new ShieldofRedemption();
-            case Items.Cloak:
-                return new Cloak();
+            case Items.IronSights:
+                return new IronSights();
             case Items.CandleFlamer:
                 return new CandleFlamer();
+            case Items.SilverBullets:
+                return new SilverBullets();
+            case Items.GoldPurse:
+                return new GoldPurse();
             default:
                 return new RegenItem();
         }
@@ -84,6 +88,8 @@ public enum Items
     ScaleMailArmor,
     MaceofRedemption,
     Shieldofredemption,
-    Cloak,
-    CandleFlamer
+    IronSights,
+    CandleFlamer,
+    SilverBullets,
+    GoldPurse
 }

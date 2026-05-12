@@ -19,19 +19,12 @@ public class CoffinActions : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        UnityEngine.Vector3 targetPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
-        ChaseTarget(targetPosition);
 
         if (timer > spawnTime)
         {
             SpawnZombie();
             timer = 0f;
         }
-    }
-
-    public void ChaseTarget(UnityEngine.Vector3 targetPosition)
-    {
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, stats.moveSpeed * Time.deltaTime);
     }
 
     public void SpawnZombie()

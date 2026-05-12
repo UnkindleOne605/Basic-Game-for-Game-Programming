@@ -29,7 +29,7 @@ public class StatueBossStats : MonoBehaviour, ICombatStats
     public float slamDown;
 
     //Left hand Specific
-    void Awake()
+    void Update()
     {
         Damage = attackDamage;
         Armor = armor;

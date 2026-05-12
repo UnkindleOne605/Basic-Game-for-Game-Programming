@@ -42,7 +42,6 @@ public class DroneProjectile : MonoBehaviour
             if (timer > player.invincibilityDuration)
             {
                 player.TakeDamage(CombatCalculation.CalculateDamage(drone, player));
-                Debug.Log("Hit");
                 timer = 0f;
             }
         }

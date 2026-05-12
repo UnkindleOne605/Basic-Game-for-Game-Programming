@@ -172,8 +172,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Chest
   chest: {fileID: 3697496217337197247}
   spawn: {fileID: 5384660158277625371}
-  player: {fileID: 0}
-  chestCost: 0
+  player: {fileID: 4089681507201079003, guid: 5f06f0c2116f5224c9c8cbca0b4301bd, type: 3}
+  chestCost: 10
 --- !u!114 &5384660158277625371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,3 +193,8 @@ MonoBehaviour:
   - {fileID: 7564229662906774250, guid: 0e919fe72c8e6a642b6e182200048ea2, type: 3}
   - {fileID: 6677229148519981615, guid: c70e9d0028ece89408041817653b01ac, type: 3}
   - {fileID: 4677512858960289868, guid: d95db1b035ff38b4f8ff81edbf44c6f3, type: 3}
+  - {fileID: 7105074406239809987, guid: 49ea857e63dbfbf4a9b7ef85e77cd125, type: 3}
+  - {fileID: 8863935813212166411, guid: d448ba0f1e0b4134eaf85651dfb59783, type: 3}
+  - {fileID: 4174309364479962229, guid: 9f043c019861a2541a3a4a8ba70226ef, type: 3}
+  - {fileID: 2188715243594897473, guid: b016831577b64e446b87abcac4d5a3a2, type: 3}
+  - {fileID: 8559507387717995655, guid: 90934cd75119d8b4b884cfaa21c06ea3, type: 3}

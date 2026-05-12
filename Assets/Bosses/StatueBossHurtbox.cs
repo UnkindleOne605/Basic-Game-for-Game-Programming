@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StatueBossHurtbox : MonoBehaviour
 {
@@ -25,14 +26,17 @@ public class StatueBossHurtbox : MonoBehaviour
             Destroy(body.gameObject);
             Debug.Log("Boss Defeated");
 
-            //Run Victory or Level Complete Code
+            SceneManager.LoadScene("Win Screen");
+
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Collision detected with: " + collision.gameObject.name);
         if (collision.CompareTag("PlayerProjectile"))
         {
+            Debug.Log("Hit by player projectile");
             if (timer > enemy.invincibilityDuration)
             {
                 enemy.TakeDamage(CombatCalculation.CalculateDamage(player, enemy));
@@ -57,5 +61,4 @@ public class StatueBossHurtbox : MonoBehaviour
         enemy.currentHealth = enemy.maxHealth;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
-    
 }

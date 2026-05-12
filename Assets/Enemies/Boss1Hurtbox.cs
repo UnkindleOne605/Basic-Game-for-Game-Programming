@@ -37,7 +37,6 @@ public class Boss1Hurtbox : MonoBehaviour
             if (timer > boss.invincibilityDuration)
             {
                 boss.TakeDamage(CombatCalculation.CalculateDamage(player, boss));
-                Debug.Log("Hit");
                 Destroy(collision.gameObject);
                 timer = 0f;
             }

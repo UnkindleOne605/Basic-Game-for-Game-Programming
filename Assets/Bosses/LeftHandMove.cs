@@ -9,6 +9,7 @@ public class LeftHandMove : MonoBehaviour
     public float healMoveY;
     public float healCastTime;
     public float healAmount;
+    public float healCooldown;
     private float bodyDistance;
     private float difference;
     private Transform target;
@@ -27,14 +28,25 @@ public class LeftHandMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (healing == false)
+        if (healOnCooldown == true)
         {
-            FollowBody();   
+            healTimer += Time.deltaTime;
+            if (healTimer >= healCooldown)
+            {
+                healOnCooldown = false;
+                healTimer = 0f;
+            }
         }
-        else if ((statueBody.currentHealth <= statueBody.maxHealth/2 || healOnCooldown == false) && healing == true)
+
+        if ((statueBody.currentHealth <= statueBody.maxHealth/2 || healOnCooldown == false) && healing == true)
         {
             healing = true;
+            handSpriteL.color = Color.green;
             Heal();
+        }
+        else if (healing == false)
+        {
+            FollowBody();   
         }
         
     }
@@ -44,7 +56,6 @@ public class LeftHandMove : MonoBehaviour
         //Debug.Log("body: " + mainBody.position);
         leftHandPosition = mainBody.position + new UnityEngine.Vector3(handStatsL.offset, 0, 0); 
         transform.position = UnityEngine.Vector3.MoveTowards(transform.position, leftHandPosition, handStatsL.moveSpeed * Time.deltaTime);
-        //bodyDistance = Vector2.Distance(transform.position, mainBody.position);
         if (UnityEngine.Vector3.Distance(transform.position, leftHandPosition) <= handStatsL.tolerance)
         {
             handStatsL.moveSpeed = handStatsL.initialMoveSpeed;
@@ -53,11 +64,10 @@ public class LeftHandMove : MonoBehaviour
 
     void Heal()
     {
+        Debug.Log("Healing");
         healTimer += Time.deltaTime;
-        //will periodically heal statue under certain conditions
         leftHandPosition = mainBody.position + new UnityEngine.Vector3(handStatsL.offset, healMoveY, 0); 
         transform.position = UnityEngine.Vector3.MoveTowards(transform.position, leftHandPosition, handStatsL.moveSpeed * Time.deltaTime);
-        //bodyDistance = Vector2.Distance(transform.position, mainBody.position);
         if (UnityEngine.Vector3.Distance(transform.position, leftHandPosition) <= handStatsL.tolerance)
         {
             handStatsL.moveSpeed = handStatsL.initialMoveSpeed;
@@ -67,6 +77,9 @@ public class LeftHandMove : MonoBehaviour
         {
             statueBody.currentHealth += healAmount;    
             healing = false;
+            handSpriteL.color = Color.white;
+            healOnCooldown = true;
+            healTimer = 0f;
         }
 
     }

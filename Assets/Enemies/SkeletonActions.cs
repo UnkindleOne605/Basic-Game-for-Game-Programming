@@ -8,7 +8,7 @@ public class SkeletonActions : MonoBehaviour
     public EnemyStats stats;
     private float timer;
     private float tempSpeed;
-    [SerializeField] private Transform BasicProjectile;
+    [SerializeField] private Transform SkeletonProjectile;
 
     private UnityEngine.Vector2 target;
     void Awake()
@@ -46,8 +46,8 @@ public class SkeletonActions : MonoBehaviour
         UnityEngine.Vector3 direction = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
         direction.z = 0;
         direction.Normalize();
-        Transform projectileTransform = Instantiate(BasicProjectile, transform.position, UnityEngine.Quaternion.identity);
-        projectileTransform.GetComponent<BasicProjectile>().Setup(direction);
+        Transform projectileTransform = Instantiate(SkeletonProjectile, transform.position, UnityEngine.Quaternion.identity);
+        projectileTransform.GetComponent<SkeletonProjectile>().Setup(direction);
     }
 
     void Initialize()

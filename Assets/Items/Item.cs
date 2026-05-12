@@ -89,11 +89,11 @@ public class ShieldofRedemption : Item
     }
 }
 
-public class Cloak : Item
+public class IronSights : Item
 {
     public override string GiveName()
     {
-        return "Cloak";
+        return "Iron sights";
     }
 }
 
@@ -102,6 +102,22 @@ public class CandleFlamer : Item
     public override string GiveName()
     {
         return "Candle Flamer";
+    }
+}
+
+public class SilverBullets : Item
+{
+    public override string GiveName()
+    {
+        return "Silver Bullets";
+    }
+}
+
+public class GoldPurse : Item
+{
+    public override string GiveName()
+    {
+        return "Gold Purse";
     }
 }
 

@@ -9,6 +9,9 @@ TagManager:
   - CorruptedStatueBody
   - Director
   - Chest
+  - Enemy
+  - UI
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX

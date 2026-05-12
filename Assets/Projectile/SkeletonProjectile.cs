@@ -38,12 +38,7 @@ public class SkeletonProjectile : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (timer > player.invincibilityDuration)
-            {
-                player.TakeDamage(CombatCalculation.CalculateDamage(skeleton, player));
-                Debug.Log("Hit");
-                timer = 0f;
-            }
+            player.TakeDamage(CombatCalculation.CalculateDamage(skeleton, player));
         }
     }
 }
